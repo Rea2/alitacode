@@ -23,21 +23,10 @@ const {
   addGoodPrediction,
   initAlita,
   syncPrompts,
-  onConfigChange
+  onConfigChange,
+  getAvailableAIModels
 } = require("./commands");
 
-function showInputBox(options, placeHolder) {
-  return vscode.window.showQuickPick(options, { placeHolder });
-}
-
-const splitSign = " --- ";
-function createListOfFunctions(providerItems) {
-  return providerItems.map(item => {
-    let key = Object.keys(item)[0];
-    let value = item[key];
-    return `${value}${splitSign}[${key}]`
-  })
-}
 
 async function activate(context) {
   await vscode.commands.executeCommand("setContext", "alitacode.ExtentablePlatforms", EXTERNAL_PROMPTS_PROVIDERS);
@@ -89,20 +78,10 @@ async function activate(context) {
   );
 
 
-  const getAvailableModelsSub = vscode.commands.registerCommand("alitacode.getAvailableAIModels", async () => {
-    let avaiableModels = createListOfFunctions(await alitaService.getAIModelNames());
-    let selectedModel = await showInputBox(avaiableModels, "Please select a LLM provider:");
-    if (selectedModel) {
-      const configuration = vscode.workspace.getConfiguration();
-      configuration.update("alitacode.modelName", selectedModel.split(splitSign)[0], vscode.ConfigurationTarget.Global);
-      configuration.update("alitacode.modelGroupName",
-        selectedModel.split(splitSign)[1],
-        vscode.ConfigurationTarget.Global);
-      vscode.window.showInformationMessage(`You selected: ${selectedModel}`);
-    } else {
-      vscode.window.showInformationMessage("Operation cancelled.");
-    }
-  });
+  const getAvailableModelsSub = vscode.commands.registerCommand(
+    COMMAND.GET_AVAILABLE_AI_MODELS,
+    getAvailableAIModels
+  );
 
   const displayCurrentModel = vscode.commands.registerCommand("alitacode.displayCurrentAIModel", async () => {
     const configuration = vscode.workspace.getConfiguration().get("alitacode.modelName");
