@@ -26,6 +26,19 @@ const {
   onConfigChange
 } = require("./commands");
 
+function showInputBox(options, placeHolder) {
+  return vscode.window.showQuickPick(options, { placeHolder });
+}
+
+const splitSign = " --- ";
+function createListOfFunctions(providerItems) {
+  return providerItems.map(item => {
+    let key = Object.keys(item)[0];
+    let value = item[key];
+    return `${value}${splitSign}[${key}]`
+  })
+}
+
 async function activate(context) {
   await vscode.commands.executeCommand("setContext", "alitacode.ExtentablePlatforms", EXTERNAL_PROMPTS_PROVIDERS);
   try {
@@ -75,6 +88,30 @@ async function activate(context) {
     addGoodPrediction
   );
 
+
+  const getAvailableModelsSub = vscode.commands.registerCommand("alitacode.getAvailableAIModels", async () => {
+    let avaiableModels = createListOfFunctions(await alitaService.getAIModelNames());
+    let selectedModel = await showInputBox(avaiableModels, "Please select a LLM provider:");
+    if (selectedModel) {
+      const configuration = vscode.workspace.getConfiguration();
+      configuration.update("alitacode.modelName", selectedModel.split(splitSign)[0], vscode.ConfigurationTarget.Global);
+      configuration.update("alitacode.modelGroupName",
+        selectedModel.split(splitSign)[1],
+        vscode.ConfigurationTarget.Global);
+      vscode.window.showInformationMessage(`You selected: ${selectedModel}`);
+    } else {
+      vscode.window.showInformationMessage("Operation cancelled.");
+    }
+  });
+
+  const displayCurrentModel = vscode.commands.registerCommand("alitacode.displayCurrentAIModel", async () => {
+    const configuration = vscode.workspace.getConfiguration().get("alitacode.modelName");
+    if (configuration === undefined || configuration === "" || configuration === null) {
+      return "provider not defined yet"
+    }
+    return configuration;
+  });
+
   context.subscriptions.push(predictSub);
   context.subscriptions.push(createPromptSub);
   context.subscriptions.push(addContextSub);
@@ -82,6 +119,8 @@ async function activate(context) {
   context.subscriptions.push(addGoodPredictionSub);
   context.subscriptions.push(initAlitaSub);
   context.subscriptions.push(syncPromptsSub);
+  context.subscriptions.push(getAvailableModelsSub);
+  context.subscriptions.push(displayCurrentModel);
 
   const api = {
     alitaService,
