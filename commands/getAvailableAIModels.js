@@ -23,9 +23,8 @@ module.exports = async function () {
   if (selectedModel) {
     const configuration = vscode.workspace.getConfiguration();
     configuration.update("alitacode.modelName", selectedModel.split(splitSign)[0], vscode.ConfigurationTarget.Global);
-    configuration.update("alitacode.modelGroupName",
-      selectedModel.split(splitSign)[1],
-      vscode.ConfigurationTarget.Global);
+    const uid = await alitaService.getAIModelUid(selectedModel.split(splitSign)[1]);
+    configuration.update("alitacode.integrationUid", uid.toString(), vscode.ConfigurationTarget.Global);
     vscode.window.showInformationMessage(`You selected: ${selectedModel}`);
   } else {
     vscode.window.showInformationMessage("Operation cancelled.");
@@ -36,7 +35,7 @@ function createArrayOfAIProviders(providerItems) {
   return providerItems.map(item => {
     let key = Object.keys(item)[0];
     let value = item[key];
-    return `${value}${splitSign}[${key}]`
+    return `${value}${splitSign}${key}`
   })
 }
 
