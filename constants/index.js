@@ -75,6 +75,7 @@ module.exports = {
     PREDICT: "alitacode.predict",
     OPEN_SETTINGS: "workbench.action.openSettings",
     ADD_GOOD_PREDICTION: "alitacode.addGoodPrediction",
+    GET_AVAILABLE_AI_MODELS: "alitacode.getAvailableAIModels",
   },
   TEXT: {
     ALITA_ACTIVATED: "Alita was activated! Please specify configuration",
