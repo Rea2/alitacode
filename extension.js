@@ -77,19 +77,11 @@ async function activate(context) {
     addGoodPrediction
   );
 
-
   const getAvailableModelsSub = vscode.commands.registerCommand(
     COMMAND.GET_AVAILABLE_AI_MODELS,
     getAvailableAIModels
   );
 
-  const displayCurrentModel = vscode.commands.registerCommand("alitacode.displayCurrentAIModel", async () => {
-    const configuration = vscode.workspace.getConfiguration().get("alitacode.modelName");
-    if (configuration === undefined || configuration === "" || configuration === null) {
-      return "provider not defined yet"
-    }
-    return configuration;
-  });
 
   context.subscriptions.push(predictSub);
   context.subscriptions.push(createPromptSub);
@@ -99,7 +91,6 @@ async function activate(context) {
   context.subscriptions.push(initAlitaSub);
   context.subscriptions.push(syncPromptsSub);
   context.subscriptions.push(getAvailableModelsSub);
-  context.subscriptions.push(displayCurrentModel);
 
   const api = {
     alitaService,
