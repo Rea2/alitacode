@@ -110,7 +110,7 @@
           "alitacode.modelName": {
             "order": 3,
             "type": "string",
-            "markdownDescription": "[Click here to select](command:alitacode.getAvailableAIModels)"
+            "markdownDescription": "[Click here to select](command:alitacode.getAvailableAIModels)\n\nModel name used for local prompts, this is deployment name, and it can be different from case to case"
           },
           "alitacode.customModelName": {
             "order": 4,

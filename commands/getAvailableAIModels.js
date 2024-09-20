@@ -15,27 +15,30 @@
 
 const { alitaService } = require("../services");
 const vscode = require("vscode");
-const SPLITTER = " --- ";
 
 module.exports = async function () {
-  const avaiableModels = createArrayOfAIProviders(await alitaService.getAIModelNames());
-  const selectedModel = await showInputBox(avaiableModels, "Please select a LLM provider:");
+  const avaiableModels = createAIProvidersOptions(await alitaService.getAIModelNames());
+  const selectedModel = await showInputBox(avaiableModels, "Please select a LLM model:");
   if (selectedModel) {
     const configuration = vscode.workspace.getConfiguration();
-    configuration.update("alitacode.modelName", selectedModel.split(SPLITTER)[0], vscode.ConfigurationTarget.Global);
-    const uid = await alitaService.getAIModelUid(selectedModel.split(SPLITTER)[1]);
-    configuration.update("alitacode.integrationUid", uid.toString(), vscode.ConfigurationTarget.Global);
-    vscode.window.showInformationMessage(`You selected: ${selectedModel}`);
+    let { label, description } = selectedModel;
+
+    await configuration.update("alitacode.modelName",
+      label, vscode.ConfigurationTarget.Global);
+
+    const uid = await alitaService.getAIModelUid(description);
+    await configuration.update("alitacode.integrationUid", uid.toString(), vscode.ConfigurationTarget.Global);
+    vscode.window.showInformationMessage(`You selected: ${label}  [${description}]`);
   } else {
     vscode.window.showInformationMessage("Operation cancelled.");
   }
 };
 
-function createArrayOfAIProviders(providerItems) {
+function createAIProvidersOptions(providerItems) {
   return providerItems.map(item => {
     let key = Object.keys(item)[0];
     let value = item[key];
-    return `${value}${SPLITTER}${key}`
+    return { label: value, description: key }
   })
 }
 
