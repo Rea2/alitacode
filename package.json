@@ -110,7 +110,7 @@
           "alitacode.modelName": {
             "order": 3,
             "type": "string",
-              "markdownDescription": "[Click here to select](command:alitacode.getAvailableAIModels)"
+            "markdownDescription": "[Click here to select](command:alitacode.getAvailableAIModels)"
           },
           "alitacode.customModelName": {
             "order": 4,
