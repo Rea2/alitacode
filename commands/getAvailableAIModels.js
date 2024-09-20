@@ -15,15 +15,15 @@
 
 const { alitaService } = require("../services");
 const vscode = require("vscode");
-const splitter = " --- ";
+const SPLITTER = " --- ";
 
 module.exports = async function () {
-  let avaiableModels = createArrayOfAIProviders(await alitaService.getAIModelNames());
-  let selectedModel = await showInputBox(avaiableModels, "Please select a LLM provider:");
+  const avaiableModels = createArrayOfAIProviders(await alitaService.getAIModelNames());
+  const selectedModel = await showInputBox(avaiableModels, "Please select a LLM provider:");
   if (selectedModel) {
     const configuration = vscode.workspace.getConfiguration();
-    configuration.update("alitacode.modelName", selectedModel.split(splitter)[0], vscode.ConfigurationTarget.Global);
-    const uid = await alitaService.getAIModelUid(selectedModel.split(splitter)[1]);
+    configuration.update("alitacode.modelName", selectedModel.split(SPLITTER)[0], vscode.ConfigurationTarget.Global);
+    const uid = await alitaService.getAIModelUid(selectedModel.split(SPLITTER)[1]);
     configuration.update("alitacode.integrationUid", uid.toString(), vscode.ConfigurationTarget.Global);
     vscode.window.showInformationMessage(`You selected: ${selectedModel}`);
   } else {
@@ -35,7 +35,7 @@ function createArrayOfAIProviders(providerItems) {
   return providerItems.map(item => {
     let key = Object.keys(item)[0];
     let value = item[key];
-    return `${value}${splitter}${key}`
+    return `${value}${SPLITTER}${key}`
   })
 }
 
