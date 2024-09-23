@@ -42,10 +42,6 @@
       {
         "command": "alitacode.getAvailableAIModels",
         "title": "Alita: Get avaialble AI models from the server"
-      },
-      {
-        "command": "alitacode.displayCurrentAIModel",
-        "title": "Alita: Display AI model from properties"
       }
     ],
     "menus": {
