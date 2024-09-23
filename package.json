@@ -107,21 +107,21 @@
             "default": "",
             "description": "This is API Key or Bearer token for LLM service provider if applicable"
           },
-          "alitacode.selectModel": {
-            "order": 4,
-            "type": "null",
-            "markdownDescription": "[Click here to select](command:alitacode.getAvailableAIModels)"
-          },
-          "alitacode.modelName": {
-            "order": 5,
-            "type": "string",
-            "description": "Model name used for local prompts, this is deployment name, and it can be different from case to case"
-          },
           "alitacode.projectId": {
             "order": 3,
             "type": "number",
             "default": 1,
             "description": "Project Id in Alita Backened, ignored for OpenAI"
+          },
+          "alitacode.modelName": {
+            "order": 4,
+            "type": "string",
+            "default": "",
+            "markdownDescription": "[Click here to select. ](command:alitacode.getAvailableAIModels)\n Then click [here]\n\nModel name used for local prompts, this is deployment name, and it can be different from case to case"
+          },
+          "alitacode.integrationName": {
+            "order": 5,
+            "type": "string"
           },
           "alitacode.integrationUid": {
             "order": 6,

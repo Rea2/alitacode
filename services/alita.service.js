@@ -40,6 +40,7 @@ module.exports = class AlitaService {
         this.serviceProvider = new llmServierProvider[newProvier]();
         this.currentProvider = newProvier;
         this.init_done = 0;
+        this.integrationData = undefined;
       }
     } catch (ex) {
       console.log(ex)
@@ -126,9 +127,9 @@ module.exports = class AlitaService {
   }
 
   async getAIModelNames() {
-    const data = await this.getEmbeddings();
+    this.integrationData = await this.getEmbeddings();
     const array = [];
-    data.forEach(entry => {
+    this.integrationData.forEach(entry => {
       if (entry.settings && Array.isArray(entry.settings.models)) {
         entry.settings.models.forEach(model => {
           if (model.name && entry.name) {
@@ -140,15 +141,15 @@ module.exports = class AlitaService {
     return array;
   }
 
-  async getAIModelUid(integrationConfigName) {
-    const data = await this.getEmbeddings();
+  async getAIModelUid(integrationConfigName, isUsedCashedData) {
+    const data = isUsedCashedData ? this.integrationData : await this.getEmbeddings();
     return data
       .filter(integration => integration.config.name === integrationConfigName)
       .map(integration => integration.uid);
   }
 
-  async getAIModelIntegrationName(integrationConfigName) {
-    const data = await this.getEmbeddings();
+  async getAIModelIntegrationName(integrationConfigName, isUsedCashedData) {
+    const data = isUsedCashedData ? this.integrationData : await this.getEmbeddings();
     return data
       .filter(integration => integration.config.name === integrationConfigName)
       .map(integration => integration.name);

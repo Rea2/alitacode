@@ -82,7 +82,6 @@ async function activate(context) {
     getAvailableAIModels
   );
 
-
   context.subscriptions.push(predictSub);
   context.subscriptions.push(createPromptSub);
   context.subscriptions.push(addContextSub);
