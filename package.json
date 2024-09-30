@@ -109,24 +109,8 @@
             "default": 1,
             "description": "Project Id in Alita Backened, ignored for OpenAI"
           },
-          "alitacode.modelName": {
-            "order": 4,
-            "type": "string",
-            "default": "",
-            "markdownDescription": "[Click here to select](command:alitacode.getAvailableAIModels)\n\nModel name used for local prompts, this is deployment name, and it can be different from case to case"
-          },
-          "alitacode.integrationName": {
-            "order": 5,
-            "type": "string"
-          },
-          "alitacode.integrationUid": {
-            "order": 6,
-            "type": "string",
-            "default": "Integration UUID goes here",
-            "description": "AI integration Id from Alita Backened, ignored for OpenAI"
-          },
           "alitacode.defaultViewMode": {
-            "order": 7,
+            "order": 4,
             "type": "string",
             "default": "append",
             "enum": [
@@ -138,7 +122,7 @@
             "description": "Select the default display mode for the predictions"
           },
           "alitacode.verifySsl": {
-            "order": 8,
+            "order": 5,
             "label": "Verify SSL",
             "type": "boolean",
             "default": true,
@@ -149,6 +133,36 @@
             "type": "boolean",
             "default": true,
             "description": "Enable/disable this extension"
+          }
+        }
+      },
+      {
+        "title": "Integration Settings",
+        "properties": {
+          "alitacode.selectIntegration": {
+            "order": 1,
+            "type": "string",
+            "default": "Please use [Click here to select] button",
+            "enum": [
+              "Please use [Click here to select] button"
+            ],
+            "markdownDescription": "[Click here to select](command:alitacode.getAvailableAIModels)"
+          },
+          "alitacode.modelName": {
+            "order": 2,
+            "type": "string",
+            "default": "",
+            "markdownDescription": "\n\nModel name used for local prompts, this is deployment name, and it can be different from case to case"
+          },
+          "alitacode.integrationName": {
+            "order": 3,
+            "type": "string"
+          },
+          "alitacode.integrationUid": {
+            "order": 4,
+            "type": "string",
+            "default": "Integration UUID goes here",
+            "description": "AI integration Id from Alita Backened, ignored for OpenAI"
           }
         }
       },
